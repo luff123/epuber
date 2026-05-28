@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPUB Reader</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 文件导入区 -->
+        <div id="upload-area" class="upload-area">
+            <div class="upload-content">
+                <h2>📚 EPUB阅读器</h2>
+                <p>拖放EPUB文件到此处或点击选择文件</p>
+                <input type="file" id="file-input" accept=".epub" hidden>
+                <button id="upload-btn">选择EPUB文件</button>
+            </div>
+        </div>
+
+        <!-- 阅读区域 -->
+        <div id="reader-area" class="reader-area" style="display: none;">
+            <div class="header">
+                <h1 id="book-title">书籍标题</h1>
+                <button id="back-btn">📂 打开新文件</button>
+            </div>
+            
+            <div class="main-content">
+                <!-- 左侧目录面板 -->
+                <div class="toc-panel">
+                    <div class="toc-header">
+                        <h3>目录</h3>
+                        <button id="toggle-toc" class="toggle-btn">收起</button>
+                    </div>
+                    <div id="toc-list" class="toc-list"></div>
+                </div>
+                
+                <!-- 右侧内容面板 -->
+                <div class="content-panel">
+                    <div id="content-area" class="content-area"></div>
+                    <div class="navigation-buttons">
+                        <button id="prev-chapter" class="nav-btn" title="上一章 (←)">◀ 上一章</button>
+                        <span id="chapter-info" class="chapter-info"></span>
+                        <button id="next-chapter" class="nav-btn" title="下一章 (→)">下一章 ▶</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 加载指示器 -->
+        <div id="loading-overlay" class="loading-overlay" style="display: none;">
+            <div class="loading-spinner"></div>
+            <p>正在加载EPUB文件...</p>
+        </div>
+
+        <!-- 错误提示 -->
+        <div id="error-message" class="error-message" style="display: none;"></div>
+    </div>
+
+    <!-- 引入必要的库 -->
+    <script src="jszip.min.js"></script>
+    <script src="popup.js"></script>
+</body>
+</html>
