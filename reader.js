@@ -353,7 +353,7 @@ class EPUBReader {
         return baseParts.join('/');
     }
     
-    async loadSpineItem(index) {
+    async loadSpineItem(index, anchorId = null) {
         if (index < 0 || index >= this.spine.length) return;
         
         this.currentSpineIndex = index;
@@ -396,10 +396,32 @@ class EPUBReader {
             
             await this.renderContentSimple(content, item.href);
             
+            if (anchorId) {
+                this.scrollToAnchor(anchorId);
+            } else {
+                contentArea.scrollTop = 0;
+            }
+            
             this.updateActiveTOC(item.href);
             this.updateNavigationButtons();
         } catch (error) {
             contentArea.innerHTML = `<p style="color:red;">❌ 加载章节失败: ${error.message || '未知错误'}</p>`;
+        }
+    }
+    
+    scrollToAnchor(anchorId) {
+        const contentArea = document.getElementById('content-area');
+        
+        const anchorElement = contentArea.querySelector(`#${anchorId}`);
+        if (!anchorElement) {
+            const namedAnchor = contentArea.querySelector(`a[name="${anchorId}"]`);
+            if (namedAnchor) {
+                anchorElement = namedAnchor;
+            }
+        }
+        
+        if (anchorElement) {
+            anchorElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     }
     
@@ -638,7 +660,9 @@ class EPUBReader {
     }
     
     navigateTo(href) {
-        const cleanHref = href.split('#')[0];
+        const hashIndex = href.indexOf('#');
+        const cleanHref = hashIndex !== -1 ? href.substring(0, hashIndex) : href;
+        const anchorId = hashIndex !== -1 ? href.substring(hashIndex + 1) : null;
         
         const index = this.spine.findIndex(item => 
             item.href === cleanHref || 
@@ -646,7 +670,7 @@ class EPUBReader {
         );
         
         if (index !== -1) {
-            this.loadSpineItem(index);
+            this.loadSpineItem(index, anchorId);
         }
     }
     

@@ -156,14 +156,17 @@ body {
     border-right: 1px solid #e0e0e0;
     display: flex;
     flex-direction: column;
-    transition: margin-left 0.3s ease, width 0.3s ease;
+    transition: width 0.3s ease, min-width 0.3s ease, opacity 0.3s ease;
+    flex-shrink: 0;
 }
 
 .toc-panel.collapsed {
-    margin-left: -280px;
     width: 0;
     min-width: 0;
+    opacity: 0;
     overflow: hidden;
+    padding: 0;
+    border: none;
 }
 
 .toc-header {
