@@ -1,9 +1,8 @@
 {
   "manifest_version": 3,
   "name": "EPUB Reader",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Chrome extension for reading EPUB ebooks in the browser",
-  "permissions": ["tabs"],
   "action": {
     "default_icon": {
       "16": "icons/icon16.png",
